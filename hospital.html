@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register Birth Details</title>
+    <style>
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* full height */
+    overflow-y: auto;  /* enable vertical scroll */
+    position: relative;
+    padding: 20px;     /* optional: to prevent cutoff at top/bottom */
+}
+
+        /* Animated Background */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 10%, transparent 10.01%);
+            background-size: 20px 20px;
+            animation: moveBackground 10s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes moveBackground {
+            from {
+                transform: translateY(0) translateX(0);
+            }
+            to {
+                transform: translateY(-1000px) translateX(-1000px);
+            }
+        }
+        label {
+  font-weight: bold;
+  color: black;
+}
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+           
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            
+            animation: slideDown 0.8s ease-out;
+        }
+
+        nav .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: white;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .form-group {
+  position: relative;
+}
+
+.form-group input[type="time"] {
+  padding-top: 1.2em;
+}
+
+.form-group label {
+  position: absolute;
+  top: 0.8em;
+  left: 0.50em;
+  font-size: 0.90em;
+  color: gray;
+  pointer-events: none;
+  font-weight: normal;
+  font-family: "Times New Roman", Times, serif;
+}
+
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #007bff;
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-100%);
+            }
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Container */
+        .container {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        .container h2 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .container input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container input:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 8px rgba(0, 123, 255, 0.3);
+        }
+
+        .container button {
+            width: 100%;
+            padding: 12px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .container button:hover {
+            background: #0056b3;
+            transform: scale(1.05);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                gap: 10px;
+            }
+
+            .container {
+                padding: 20px;
+            }
+
+            .container h2 {
+                font-size: 1.5rem;
+            }
+
+            .container input, .container button {
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">Birth Registry</div>
+        <ul>
+            <li><a href="http://localhost/HospitalManagementSystem/index.html">Home</a></li>
+            <li><a href="http://localhost/HospitalManagementSystem/about.html">About</a></li>
+            <li><a href="http://localhost/HospitalManagementSystem/login.html">Logout</a></li>
+        </ul>
+    </nav>
+
+    <!-- Form Container -->
+    <div class="container">
+        <h2>Register Birth Details</h2>
+        <form action="hospital.php" method="post">
+            <input type="text" name="child_name" placeholder="Child Name" required>
+            <input type="number" name="child_weight" placeholder="Weight (kg)" step="0.1" required>
+            <input type="text" name="hospital_name" placeholder="Hospital Name" required>
+            <input type="text" name="location" placeholder="Location" required>
+            <div class="form-group">
+                <input type="time" name="birth_time" id="birth_time" required>
+                <label for="birth_time">Birth Time</label>
+              </div>
+              
+            <input type="date" name="birth_date" required>
+            <input type="email" name="email" placeholder="Parent's Email">
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</body>
+</html>

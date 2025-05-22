@@ -1,0 +1,100 @@
+/* General Container Styling */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(to right, #e0ebf7, #c5d9f1);
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  .container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    width: 80%;
+    max-width: 800px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header Styling */
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  /* Section Title Styling */
+  .section-title {
+    font-size: 1.4rem;
+    color: #007bff;
+    margin: 20px 0 10px;
+  }
+  
+  /* Form Grid for Responsiveness */
+  .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+  }
+  
+  /* Input Group Styling */
+  .input-group {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Span 2 for Notes */
+  .span-2 {
+    grid-column: span 2;
+  }
+  
+  /* Label Styling */
+  label {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 8px;
+  }
+  
+  /* Input and Textarea Styling */
+  input, textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.3s ease;
+  }
+  
+  /* Focus Effect */
+  input:focus, textarea:focus {
+    border-color: #007bff;
+  }
+  
+  /* Submit Button Styling */
+  .submit-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive Design for Mobile */
+  @media (max-width: 600px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Prediction Result</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background: linear-gradient(to bottom right, #8EC5FC, #E0C3FC);
+      min-height: 100vh;
+      overflow: auto;
+      padding: 20px;
+    }
+    .container {
+      background-color: #ffffff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      color: #4A00E0;
+      font-weight: 600;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    canvas {
+      margin-top: 20px;
+      width: 240px;
+      height: 240px;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .result-text {
+      font-size: 22px;
+      color: #007bff;
+      margin-top: 20px;
+      font-weight: bold;
+      text-align: center;
+    }
+    .risk-details {
+      margin-top: 20px;
+    }
+    .risk-item {
+      margin-bottom: 12px;
+      padding: 10px;
+      border-radius: 8px;
+      background-color: #f9f9ff;
+    }
+    .risk-label {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    .low { color: #28a745; }
+    .moderate { color: #ffc107; }
+    .high { color: #dc3545; }
+    .recommendation-btn {
+      display: none;
+      background-color: #28a745;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 18px;
+      text-align: center;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+    .recommendation-btn:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🩺 Risk Prediction Result</h1>
+    <div class="result-text" id="result">Calculating overall risk percentage...</div>
+    <canvas id="riskChart" width="240" height="240"></canvas>
+
+    <div class="risk-details" id="riskDetails"></div>
+
+    <!-- Recommendation Button -->
+    <div class="recommendation-btn" id="recommendationButton" onclick="window.location.href='recommendations.html'">
+      View Recommendations
+    </div>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    let totalRiskPercentage = 0;
+    let parameterResults = [];
+    let hasHighRisk = false;  // Flag to check if there is any high risk
+
+    const parameterRanges = {
+      glucose_level: { min: 70, max: 140 },
+      sugar_level: { min: 70, max: 99 },
+      nutrient_levels: { min: 3.5, max: 5.5 },
+      hemoglobin_levels: { min: 12, max: 16 },
+      weight_gain: { min: 25, max: 35 },
+      urine_protein_levels: { min: 0, max: 150 },
+      thyroid_function: { min: 0.5, max: 4.5 },
+      amniotic_fluid_levels: { min: 8, max: 18 },
+      baby_position: { min: 0, max: 1 }
+    };
+
+    for (let param in parameterRanges) {
+      const value = parseFloat(params.get(param));
+      const { min, max } = parameterRanges[param];
+
+      if (isNaN(value)) continue;
+
+      let risk = 0;
+      if (value < min) {
+        risk = ((min - value) / min) * 100;
+      } else if (value > max) {
+        risk = ((value - max) / max) * 100;
+      }
+
+      risk = Math.min(Math.max(risk, 0), 100);
+      totalRiskPercentage += risk / 9;
+
+      let status, emoji;
+      if (risk === 0) {
+        status = 'Normal';
+        emoji = '✅';
+      } else if (risk <= 30) {
+        status = 'Moderate';
+        emoji = '⚠️';
+      } else {
+        status = 'High';
+        emoji = '🚨';
+        hasHighRisk = true;  // If there is high risk, set flag to true
+      }
+
+      parameterResults.push({ param, value, risk, status, emoji });
+    }
+
+    // Display overall risk
+    totalRiskPercentage = Math.min(Math.max(totalRiskPercentage, 0), 100);
+    document.getElementById('result').innerText = `Overall Risk Percentage: ${totalRiskPercentage.toFixed(2)}%`;
+
+    // Display individual parameter risk
+    const riskDetails = document.getElementById('riskDetails');
+    parameterResults.forEach(result => {
+      const colorClass = result.status === 'Normal' ? 'low' : result.status === 'Moderate' ? 'moderate' : 'high';
+      riskDetails.innerHTML += `
+        <div class="risk-item ${colorClass}">
+          <span class="risk-label">${result.emoji} ${result.param.replace('_', ' ').toUpperCase()}:</span> 
+          ${result.value} - ${result.status} (Risk: ${result.risk.toFixed(2)}%)
+        </div>
+      `;
+    });
+
+    // Show recommendation button if any parameter has high risk
+    if (hasHighRisk) {
+      document.getElementById('recommendationButton').style.display = 'block';
+    }
+
+    const ctx = document.getElementById('riskChart').getContext('2d');
+    const remainingPercentage = 100 - totalRiskPercentage;
+
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Risk Percentage', 'Safe Percentage'],
+        datasets: [{
+          data: [totalRiskPercentage, remainingPercentage],
+          backgroundColor: ['#ff4d4d', '#4caf50'],
+          hoverOffset: 4
+        }]
+      },
+      options: {
+        responsive: false,
+        plugins: {
+          legend: {
+            display: true,
+            position: 'bottom'
+          }
+        }
+      }
+    });
+
+  </script>
+</body>
+</html>

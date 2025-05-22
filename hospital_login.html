@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hospital Login</title>
+</head>
+<body style="margin: 0; padding: 0; height: 100vh; display: flex; justify-content: center; align-items: center; background: linear-gradient(135deg, #6a11cb, #2575fc); font-family: 'Arial', sans-serif;">
+    <div class="container" style="background: rgba(255, 255, 255, 0.9); padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); width: 350px; text-align: center;">
+        <h2 style="margin-bottom: 20px; font-size: 28px; color: #333; font-weight: 600;">Hospital Login</h2>
+        
+        <form action="hospital_login.php" method="post" style="display: flex; flex-direction: column;">
+            <input type="text" name="username" placeholder="Username" required style="padding: 12px; margin-bottom: 20px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; outline: none;">
+            <input type="password" name="password" placeholder="Password" required style="padding: 12px; margin-bottom: 20px; border: 2px solid #ddd; border-radius: 8px; font-size: 16px; outline: none;">
+            
+            <button type="submit" style="padding: 12px; background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer;">
+                Login
+            </button>
+        </form>
+    </div>
+</body>
+</html>
